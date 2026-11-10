@@ -50,7 +50,7 @@ export function ProjectList({ projects }: { projects: Project[] }) {
               {String(i + 1).padStart(2, "0")}
             </span>
             <span className="min-w-0 flex-1 sm:flex sm:items-baseline sm:gap-4">
-              <span className="block shrink-0 text-lg font-semibold tracking-tight transition-transform duration-300 group-hover:translate-x-1">
+              <span className="sheen-text block shrink-0 text-lg font-extrabold tracking-tight transition-transform duration-300 group-hover:translate-x-1">
                 {project.name}
               </span>
               <span className="mt-1 block text-sm text-muted sm:mt-0 sm:truncate">
@@ -80,7 +80,7 @@ export function ProjectGrid({ projects }: { projects: Project[] }) {
             className="grad-border lift group flex h-full flex-col rounded-2xl border border-line bg-surface p-6 backdrop-blur-sm"
           >
             <div className="flex items-start justify-between gap-3">
-              <h2 className="text-xl font-semibold tracking-tight break-words">
+              <h2 className="sheen-text text-xl font-extrabold tracking-tight break-words">
                 {project.name}
               </h2>
               <FiArrowUpRight className="mt-1 size-5 shrink-0 text-muted transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-fg" />

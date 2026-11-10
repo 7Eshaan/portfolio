@@ -54,10 +54,10 @@ export default function About() {
         <p className="mb-5 text-sm font-medium tracking-[0.2em] text-muted uppercase">
           About
         </p>
-        <h1 className="text-4xl leading-tight font-semibold tracking-tight sm:text-5xl">
+        <h1 className="sheen-text text-4xl leading-tight font-extrabold tracking-tight sm:text-5xl">
           A bit more <span className="gradient-text">about me</span>.
         </h1>
-        <div className="mt-6 max-w-2xl space-y-5 text-lg leading-relaxed text-pretty text-muted">
+        <div className="mt-6 max-w-2xl space-y-5 text-lg leading-relaxed text-pretty text-muted spotlight-copy">
           {site.about.map((paragraph) => (
             <p key={paragraph}>{paragraph}</p>
           ))}
@@ -65,7 +65,7 @@ export default function About() {
       </section>
 
       <section aria-labelledby="stack" className="border-t border-line pt-10">
-        <h2 id="stack" className="text-3xl font-semibold tracking-tight">
+        <h2 id="stack" className="sheen-text text-3xl font-extrabold tracking-tight">
           Tech stack
         </h2>
 

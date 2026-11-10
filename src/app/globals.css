@@ -24,6 +24,16 @@
   --icon-via: #a020f0;
   --icon-to: #c77dff;
   --icon-glow: rgb(160 32 240 / 0.55);
+  /* Headings: lit from above, ink fading to graphite. */
+  --sheen: linear-gradient(180deg, #170b2b 0%, #170b2b 38%, #5a4a78 92%);
+  /* Body copy: brightest through the middle, dimmer toward both edges. */
+  --spotlight: linear-gradient(
+    90deg,
+    rgb(23 11 43 / 0.62) 0%,
+    rgb(23 11 43 / 0.9) 28%,
+    rgb(23 11 43 / 0.9) 72%,
+    rgb(23 11 43 / 0.62) 100%
+  );
 
   /* The page backdrop: a clear dome at the top melting into purple. */
   --page-gradient: radial-gradient(
@@ -53,6 +63,15 @@
   --icon-via: #dcb3ff;
   --icon-to: #ffffff;
   --icon-glow: rgb(203 140 255 / 0.85);
+  /* Headings: white fading to silver. */
+  --sheen: linear-gradient(180deg, #ffffff 0%, #ffffff 38%, #a9a6b8 92%);
+  --spotlight: linear-gradient(
+    90deg,
+    rgb(255 255 255 / 0.58) 0%,
+    rgb(255 255 255 / 0.95) 28%,
+    rgb(255 255 255 / 0.95) 72%,
+    rgb(255 255 255 / 0.58) 100%
+  );
 
   --page-gradient: radial-gradient(
     ellipse var(--dome) at 55% -6%,
@@ -74,7 +93,7 @@
   --color-muted: var(--muted);
   --color-line: var(--line);
   --color-surface: var(--surface);
-  --font-sans: var(--font-instrument-sans);
+  --font-sans: var(--font-inter);
   --font-mono: var(--font-geist-mono);
 }
 
@@ -95,7 +114,7 @@ html.dark {
 
 body {
   color: var(--fg);
-  font-family: var(--font-instrument-sans), system-ui, sans-serif;
+  font-family: var(--font-inter), system-ui, sans-serif;
 }
 
 ::selection {
@@ -116,6 +135,24 @@ body {
 
 .gradient-text {
   background: var(--grad-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* White-to-silver headings. The gradient repeats once per line of text, so a
+   heading that wraps keeps the same top-lit look on every line. */
+.sheen-text {
+  background: var(--sheen);
+  background-size: 100% 1lh;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Paragraphs: a soft spotlight through the middle of the column. */
+.spotlight-copy > p {
+  background: var(--spotlight);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;

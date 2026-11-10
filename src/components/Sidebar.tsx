@@ -11,7 +11,7 @@ export function SiteName() {
       <Link
         href="/"
         aria-label={site.name}
-        className="inline-flex items-baseline text-3xl font-semibold tracking-tight transition-opacity duration-300 hover:opacity-80"
+        className="inline-flex items-baseline text-3xl font-extrabold tracking-tight transition-opacity duration-300 hover:opacity-80"
       >
         {/* Terminal prompt mark, decorative. */}
         <span
@@ -26,7 +26,7 @@ export function SiteName() {
   );
 }
 
-const headingClass = "mb-3 text-lg font-semibold tracking-tight";
+const headingClass = "sheen-text mb-3 text-lg font-extrabold tracking-tight";
 
 /** Enough copies that one half of a belt is always wider than its container. */
 const REPEAT = 4;

@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { Geist_Mono, Instrument_Sans } from "next/font/google";
+import { Geist_Mono, Inter } from "next/font/google";
 import { Navbar } from "@/components/Navbar";
 import { Sidebar, SiteName } from "@/components/Sidebar";
 import { site } from "@/lib/site";
 import "./globals.css";
 
-const sans = Instrument_Sans({
-  variable: "--font-instrument-sans",
+const sans = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 

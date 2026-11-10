@@ -15,7 +15,7 @@ export default async function Projects() {
         <p className="mb-5 text-sm font-medium tracking-[0.2em] text-muted uppercase">
           Projects
         </p>
-        <h1 className="text-4xl leading-tight font-semibold tracking-tight sm:text-5xl">
+        <h1 className="sheen-text text-4xl leading-tight font-extrabold tracking-tight sm:text-5xl">
           Things I&apos;ve <span className="gradient-text">built</span>.
         </h1>
         <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted">

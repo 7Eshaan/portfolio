@@ -20,7 +20,7 @@ export default function Resume() {
           Resume
         </p>
         <div className="flex flex-wrap items-end justify-between gap-6">
-          <h1 className="text-4xl leading-tight font-semibold tracking-tight sm:text-5xl">
+          <h1 className="sheen-text text-4xl leading-tight font-extrabold tracking-tight sm:text-5xl">
             My <span className="gradient-text">resume</span>.
           </h1>
           {hasResume && (

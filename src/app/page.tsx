@@ -10,11 +10,11 @@ export default async function Home() {
   return (
     <>
       <section className="pb-14">
-        <h1 className="text-4xl leading-tight font-semibold tracking-tight text-balance sm:text-5xl">
+        <h1 className="sheen-text text-4xl leading-tight font-extrabold tracking-tight text-balance sm:text-5xl">
           {site.home.greeting}{" "}
           <span className="gradient-text">{site.name}</span>.
         </h1>
-        <div className="mt-6 max-w-2xl space-y-5 text-lg leading-relaxed text-pretty text-muted">
+        <div className="mt-6 max-w-2xl space-y-5 text-lg leading-relaxed text-pretty text-muted spotlight-copy">
           {site.home.paragraphs.map((paragraph) => (
             <p key={paragraph}>{paragraph}</p>
           ))}
@@ -30,7 +30,7 @@ export default async function Home() {
 
       <section aria-labelledby="projects" className="border-t border-line pt-10">
         <div className="mb-6 flex items-end justify-between gap-4">
-          <h2 id="projects" className="text-3xl font-semibold tracking-tight">
+          <h2 id="projects" className="sheen-text text-3xl font-extrabold tracking-tight">
             Projects
           </h2>
           <Link
