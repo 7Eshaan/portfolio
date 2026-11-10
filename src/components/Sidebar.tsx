@@ -7,11 +7,19 @@ import { Socials } from "./Socials";
 /** Top-left cell: the name, aligned with the navbar row. */
 export function SiteName() {
   return (
-    <div className="flex h-16 items-end lg:h-24 lg:items-center lg:justify-center lg:pr-10">
+    <div className="flex h-16 items-end lg:h-24 lg:items-center lg:pr-10">
       <Link
         href="/"
-        className="text-3xl font-semibold tracking-tight transition-opacity duration-300 hover:opacity-80"
+        aria-label={site.name}
+        className="inline-flex items-baseline text-3xl font-semibold tracking-tight transition-opacity duration-300 hover:opacity-80"
       >
+        {/* Terminal prompt mark, decorative. */}
+        <span
+          aria-hidden="true"
+          className="mr-1 font-mono text-[0.8em] font-medium tracking-tighter text-muted"
+        >
+          &gt;<span className="prompt-cursor">_</span>
+        </span>
         <span className="gradient-text">{site.name}</span>
       </Link>
     </div>
@@ -136,7 +144,7 @@ export function Sidebar() {
   return (
     <aside className="sidebar-sticky order-last min-w-0 space-y-8 border-t border-line py-10 lg:order-none lg:self-start lg:border-t-0 lg:pt-8 lg:pr-10 lg:pb-10">
       <div className="flex items-center gap-6 lg:block">
-        <div className="pfp w-28 shrink-0 sm:w-40 lg:mx-auto lg:w-full lg:max-w-60">
+        <div className="pfp w-28 shrink-0 sm:w-40 lg:w-full">
           <div className="relative aspect-square overflow-hidden rounded-[inherit] border border-line">
             <Image
               src="/pfp.webp"
