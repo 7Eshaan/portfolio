@@ -41,7 +41,7 @@ const techIcons: Record<string, IconType> = {
 };
 
 const buttonClass =
-  "grad-border lift group/btn inline-flex items-center gap-2.5 rounded-full border border-line bg-surface px-5 py-2.5 text-sm font-medium backdrop-blur-sm";
+  "grad-border lift group/btn inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3.5 py-2 text-sm font-medium whitespace-nowrap backdrop-blur-sm";
 
 export function EmptyProjects() {
   return (
@@ -70,8 +70,8 @@ function ProjectCard({ project }: { project: Project }) {
 
   return (
     <article
-      className={`project-card grad-border grid gap-7 rounded-3xl border border-line bg-surface p-6 backdrop-blur-sm sm:p-8 ${
-        image ? "md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] md:items-center md:gap-9" : ""
+      className={`project-card grad-border grid gap-6 rounded-3xl border border-line bg-surface p-5 backdrop-blur-sm sm:p-6 ${
+        image ? "md:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] md:items-center md:gap-7" : ""
       }`}
     >
       {image && (
@@ -123,7 +123,7 @@ function ProjectCard({ project }: { project: Project }) {
           </ul>
         )}
 
-        <div className="mt-6 flex flex-wrap gap-3 border-t border-line pt-6">
+        <div className="mt-5 flex flex-wrap gap-2 border-t border-line pt-5">
           {project.demo && (
             <a
               href={project.demo}
@@ -133,7 +133,7 @@ function ProjectCard({ project }: { project: Project }) {
             >
               <FiExternalLink className="size-4" />
               Live Demo
-              <FiArrowRight className="size-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
+              <FiArrowRight className="hidden size-4 transition-transform duration-300 group-hover/btn:translate-x-1 sm:block" />
             </a>
           )}
           <a
@@ -144,7 +144,7 @@ function ProjectCard({ project }: { project: Project }) {
           >
             <FaGithub className="size-4" />
             View Source
-            <FiArrowRight className="size-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
+            <FiArrowRight className="hidden size-4 transition-transform duration-300 group-hover/btn:translate-x-1 sm:block" />
           </a>
         </div>
       </div>
