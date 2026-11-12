@@ -1,19 +1,47 @@
-import { FiArrowUpRight, FiStar } from "react-icons/fi";
+import Image from "next/image";
+import type { IconType } from "react-icons";
+import { FaGithub, FaJava } from "react-icons/fa6";
+import { FiArrowRight, FiArrowUpRight, FiExternalLink } from "react-icons/fi";
+import {
+  SiCplusplus,
+  SiCss,
+  SiDocker,
+  SiGnubash,
+  SiGo,
+  SiHtml5,
+  SiJavascript,
+  SiKotlin,
+  SiPython,
+  SiRust,
+  SiSvelte,
+  SiSwift,
+  SiTypescript,
+} from "react-icons/si";
 import type { Project } from "@/lib/github";
-import { site } from "@/lib/site";
+import { projectDetails, site } from "@/lib/site";
 
-function Language({ project }: { project: Project }) {
-  if (!project.language) return null;
-  return (
-    <span className="inline-flex items-center gap-1.5">
-      <span
-        className="size-2.5 rounded-full"
-        style={{ background: project.languageColor ?? "#a020f0" }}
-      />
-      {project.language}
-    </span>
-  );
-}
+/** Tech chips shown before the rest collapse into "+N". */
+const MAX_TECH = 4;
+
+const techIcons: Record<string, IconType> = {
+  Go: SiGo,
+  TypeScript: SiTypescript,
+  JavaScript: SiJavascript,
+  CSS: SiCss,
+  HTML: SiHtml5,
+  Docker: SiDocker,
+  Shell: SiGnubash,
+  Python: SiPython,
+  Java: FaJava,
+  "C++": SiCplusplus,
+  Rust: SiRust,
+  Svelte: SiSvelte,
+  Kotlin: SiKotlin,
+  Swift: SiSwift,
+};
+
+const buttonClass =
+  "grad-border lift group/btn inline-flex items-center gap-2.5 rounded-full border border-line bg-surface px-5 py-2.5 text-sm font-medium backdrop-blur-sm";
 
 export function EmptyProjects() {
   return (
@@ -29,6 +57,98 @@ export function EmptyProjects() {
       </a>
       .
     </p>
+  );
+}
+
+function ProjectCard({ project }: { project: Project }) {
+  const details = projectDetails[project.name.toLowerCase()];
+  const title = details?.title ?? project.name;
+  const description = details?.description ?? project.description;
+  const image = details?.image;
+  const tech = project.tech.slice(0, MAX_TECH);
+  const moreTech = project.tech.length - tech.length;
+
+  return (
+    <article
+      className={`project-card grad-border grid gap-7 rounded-3xl border border-line bg-surface p-6 backdrop-blur-sm sm:p-8 ${
+        image ? "md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] md:items-center md:gap-9" : ""
+      }`}
+    >
+      {image && (
+        <div className="shot-stage">
+          <div className="shot aspect-[16/10] overflow-hidden rounded-xl">
+            <Image
+              src={image.src}
+              alt={`Screenshot of ${title}`}
+              width={image.width}
+              height={image.height}
+              sizes="(min-width: 768px) 340px, 90vw"
+              className="size-full object-cover"
+              style={{ objectPosition: image.position ?? "top" }}
+            />
+          </div>
+        </div>
+      )}
+
+      <div className="min-w-0">
+        <h3 className="sheen-text text-2xl font-extrabold tracking-tight break-words sm:text-3xl">
+          {title}
+        </h3>
+        <p className="mt-3 leading-relaxed text-pretty text-muted">
+          {description || "No description yet."}
+        </p>
+
+        {tech.length > 0 && (
+          <ul className="mt-5 flex flex-wrap gap-2" aria-label="Built with">
+            {tech.map((name) => {
+              const Icon = techIcons[name];
+              return (
+                <li
+                  key={name}
+                  className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3 py-1.5 text-xs font-medium"
+                >
+                  {Icon && <Icon className="size-3.5 text-muted" />}
+                  {name}
+                </li>
+              );
+            })}
+            {moreTech > 0 && (
+              <li
+                className="inline-flex items-center rounded-full border border-line bg-surface px-3 py-1.5 text-xs font-medium text-muted"
+                title={project.tech.slice(MAX_TECH).join(", ")}
+              >
+                +{moreTech}
+              </li>
+            )}
+          </ul>
+        )}
+
+        <div className="mt-6 flex flex-wrap gap-3 border-t border-line pt-6">
+          {project.demo && (
+            <a
+              href={project.demo}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`${buttonClass} is-on`}
+            >
+              <FiExternalLink className="size-4" />
+              Live Demo
+              <FiArrowRight className="size-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
+            </a>
+          )}
+          <a
+            href={project.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={buttonClass}
+          >
+            <FaGithub className="size-4" />
+            View Source
+            <FiArrowRight className="size-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
+          </a>
+        </div>
+      </div>
+    </article>
   );
 }
 
@@ -65,37 +185,15 @@ export function ProjectList({ projects }: { projects: Project[] }) {
   );
 }
 
-/** Fuller cards, used on the projects page. */
-export function ProjectGrid({ projects }: { projects: Project[] }) {
+/** One card per project, stacked. Used on the projects page. */
+export function ProjectCards({ projects }: { projects: Project[] }) {
   if (projects.length === 0) return <EmptyProjects />;
 
   return (
-    <ul className="grid gap-5 sm:grid-cols-2">
+    <ul className="space-y-6">
       {projects.map((project) => (
         <li key={project.url}>
-          <a
-            href={project.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="grad-border lift group flex h-full flex-col rounded-2xl border border-line bg-surface p-6 backdrop-blur-sm"
-          >
-            <div className="flex items-start justify-between gap-3">
-              <h2 className="sheen-text text-xl font-extrabold tracking-tight break-words">
-                {project.name}
-              </h2>
-              <FiArrowUpRight className="mt-1 size-5 shrink-0 text-muted transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-fg" />
-            </div>
-            <p className="mt-3 flex-1 text-sm leading-relaxed text-muted">
-              {project.description || "No description yet."}
-            </p>
-            <div className="mt-6 flex items-center gap-5 text-xs text-muted">
-              <Language project={project} />
-              <span className="inline-flex items-center gap-1.5">
-                <FiStar className="size-3.5" />
-                {project.stars}
-              </span>
-            </div>
-          </a>
+          <ProjectCard project={project} />
         </li>
       ))}
     </ul>

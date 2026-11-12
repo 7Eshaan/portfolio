@@ -58,7 +58,50 @@ export const site = {
     { name: "Ghostty", note: "Terminal emulator", icon: "/apps/ghostty.png", fullBleed: true, url: "https://ghostty.org" },
     { name: "T3 Code", note: "Control plane for AI agents", icon: "/apps/t3code.png", url: "https://github.com/pingdotgg/t3code" },
   ],
+
+  /** How many pinned repos to show, on the home page and the projects page. */
+  projectLimit: 3,
 } as const;
+
+/**
+ * Extra details for project cards, keyed by the repo name in lowercase.
+ * The list of projects, their links and their tech still come live from GitHub;
+ * anything set here replaces what GitHub says. Screenshots live in public/projects.
+ */
+export const projectDetails: Record<
+  string,
+  {
+    title?: string;
+    description?: string;
+    image?: { src: string; width: number; height: number; position?: string };
+  }
+> = {
+  plewtus: {
+    description:
+      "A self-hostable metasearch engine that aggregates and ranks results from multiple providers, extracts web content, and empowers AI agents through native MCP integration.",
+    image: { src: "/projects/plewtus.webp", width: 2000, height: 1162 },
+  },
+  denco: {
+    description:
+      "A cross-platform BitTorrent client written in Go, featuring tracker and DHT support, resumable downloads, peer management, and a lightweight daemon\u2013CLI architecture.",
+    image: {
+      src: "/projects/denco.png",
+      width: 1772,
+      height: 684,
+      position: "left top",
+    },
+  },
+  "job-application-tracker": {
+    title: "Job-Application-Tracker",
+    description:
+      "A full-stack job application tracker featuring a drag-and-drop Kanban board, secure authentication, and seamless application management.",
+    image: {
+      src: "/projects/job-application-tracker.webp",
+      width: 2000,
+      height: 1169,
+    },
+  },
+};
 
 export const techStack = [
   {

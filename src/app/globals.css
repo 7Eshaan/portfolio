@@ -221,6 +221,42 @@ body {
   opacity: 1;
 }
 
+/* Always-on variant, for the primary button on a card. */
+.grad-border.is-on::before {
+  opacity: 1;
+}
+
+/* Project cards: the screenshot sits tilted in 3D and squares up on hover. */
+.shot-stage {
+  perspective: 1100px;
+}
+
+.shot {
+  transform: rotateY(13deg) rotateX(3deg) rotateZ(-2deg) scale(0.94);
+  box-shadow:
+    0 0 0 1px var(--line),
+    18px 26px 50px -22px var(--glow),
+    0 30px 60px -30px rgb(0 0 0 / 0.6);
+  transition:
+    transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.7s ease;
+}
+
+.project-card:hover .shot,
+.project-card:focus-within .shot {
+  transform: none;
+  box-shadow:
+    0 0 0 1px var(--line),
+    0 22px 55px -18px var(--glow),
+    0 30px 60px -30px rgb(0 0 0 / 0.6);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shot {
+    transition: none;
+  }
+}
+
 /* Lift + purple glow, for cards and chips. */
 .lift {
   transition:

@@ -1,13 +1,16 @@
 import type { Metadata } from "next";
 import { FiArrowUpRight } from "react-icons/fi";
-import { ProjectGrid } from "@/components/ProjectViews";
+import { ProjectCards } from "@/components/ProjectViews";
 import { getPinnedProjects } from "@/lib/github";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = { title: "Projects" };
 
 export default async function Projects() {
-  const projects = await getPinnedProjects(site.githubUsername);
+  const projects = await getPinnedProjects(
+    site.githubUsername,
+    site.projectLimit,
+  );
 
   return (
     <>
@@ -23,7 +26,7 @@ export default async function Projects() {
         </p>
       </section>
 
-      <ProjectGrid projects={projects} />
+      <ProjectCards projects={projects} />
 
       <a
         href={`https://github.com/${site.githubUsername}?tab=repositories`}

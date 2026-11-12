@@ -5,7 +5,10 @@ import { getPinnedProjects } from "@/lib/github";
 import { site } from "@/lib/site";
 
 export default async function Home() {
-  const projects = await getPinnedProjects(site.githubUsername);
+  const projects = await getPinnedProjects(
+    site.githubUsername,
+    site.projectLimit,
+  );
 
   return (
     <>

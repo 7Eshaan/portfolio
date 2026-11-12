@@ -6,11 +6,20 @@ export type Project = {
   url: string;
   description: string;
   language: string | null;
-  languageColor: string | null;
-  stars: string;
+  /** The repo's "website" link on GitHub, if it has one. */
+  demo: string | null;
+  /** Languages GitHub detects in the repo, biggest first. */
+  tech: string[];
 };
 
+type BaseProject = Omit<Project, "demo" | "tech">;
+
 const HEADERS = { "User-Agent": "portfolio-site" };
+
+function apiHeaders(): Record<string, string> {
+  const token = process.env.GITHUB_TOKEN;
+  return token ? { ...HEADERS, Authorization: `Bearer ${token}` } : HEADERS;
+}
 
 /**
  * Pinned repositories for a GitHub user, refreshed roughly hourly.
@@ -18,8 +27,14 @@ const HEADERS = { "User-Agent": "portfolio-site" };
  * - With a GITHUB_TOKEN env var set, uses the official GraphQL API.
  * - Without one, reads the pinned section of the public profile page.
  * - If both fail, falls back to the most recently pushed public repos.
+ *
+ * Only the first `limit` are kept; each of those is then topped up with its
+ * live-demo link and language list.
  */
-export async function getPinnedProjects(username: string): Promise<Project[]> {
+export async function getPinnedProjects(
+  username: string,
+  limit: number,
+): Promise<Project[]> {
   "use cache";
   cacheLife("hours");
 
@@ -27,7 +42,9 @@ export async function getPinnedProjects(username: string): Promise<Project[]> {
   for (const source of sources) {
     try {
       const projects = await source(username);
-      if (projects.length > 0) return projects;
+      if (projects.length > 0) {
+        return Promise.all(projects.slice(0, limit).map(withDetails));
+      }
     } catch {
       // try the next source
     }
@@ -35,7 +52,48 @@ export async function getPinnedProjects(username: string): Promise<Project[]> {
   return [];
 }
 
-async function fromGraphQL(username: string): Promise<Project[]> {
+/** Languages that make up less than this share of a repo are left out. */
+const MIN_LANGUAGE_SHARE = 0.002;
+
+const LANGUAGE_NAMES: Record<string, string> = { Dockerfile: "Docker" };
+
+async function withDetails(project: BaseProject): Promise<Project> {
+  const api = `https://api.github.com/repos/${project.owner}/${project.name}`;
+  const [demo, tech] = await Promise.all([
+    fetchJson<{ homepage?: string | null }>(api).then((repo) => {
+      const url = repo?.homepage?.trim();
+      return url && /^https?:\/\//.test(url) ? url : null;
+    }),
+    fetchJson<Record<string, number>>(`${api}/languages`).then((bytes) => {
+      const entries = Object.entries(bytes ?? {}).filter(
+        ([, n]) => typeof n === "number",
+      );
+      const total = entries.reduce((sum, [, n]) => sum + n, 0);
+      return entries
+        .filter(([, n]) => n / total >= MIN_LANGUAGE_SHARE)
+        .sort((a, b) => b[1] - a[1])
+        .map(([name]) => LANGUAGE_NAMES[name] ?? name);
+    }),
+  ]);
+
+  return {
+    ...project,
+    demo,
+    // If the language list couldn't be fetched, fall back to the main language.
+    tech: tech.length > 0 ? tech : project.language ? [project.language] : [],
+  };
+}
+
+async function fetchJson<T>(url: string): Promise<T | null> {
+  try {
+    const res = await fetch(url, { headers: apiHeaders() });
+    return res.ok ? ((await res.json()) as T) : null;
+  } catch {
+    return null;
+  }
+}
+
+async function fromGraphQL(username: string): Promise<BaseProject[]> {
   const token = process.env.GITHUB_TOKEN;
   if (!token) return [];
 
@@ -48,9 +106,8 @@ async function fromGraphQL(username: string): Promise<Project[]> {
               name
               url
               description
-              stargazerCount
               owner { login }
-              primaryLanguage { name color }
+              primaryLanguage { name }
             }
           }
         }
@@ -68,9 +125,8 @@ async function fromGraphQL(username: string): Promise<Project[]> {
     name: string;
     url: string;
     description: string | null;
-    stargazerCount: number;
     owner: { login: string };
-    primaryLanguage: { name: string; color: string | null } | null;
+    primaryLanguage: { name: string } | null;
   };
   const json = (await res.json()) as {
     data?: { user?: { pinnedItems: { nodes: Node[] } } };
@@ -82,19 +138,17 @@ async function fromGraphQL(username: string): Promise<Project[]> {
     url: n.url,
     description: n.description ?? "",
     language: n.primaryLanguage?.name ?? null,
-    languageColor: n.primaryLanguage?.color ?? null,
-    stars: String(n.stargazerCount),
   }));
 }
 
-async function fromProfilePage(username: string): Promise<Project[]> {
+async function fromProfilePage(username: string): Promise<BaseProject[]> {
   const res = await fetch(`https://github.com/${username}`, {
     headers: HEADERS,
   });
   if (!res.ok) return [];
   const html = await res.text();
 
-  const projects: Project[] = [];
+  const projects: BaseProject[] = [];
   const blocks = html.split("pinned-item-list-item-content").slice(1);
 
   for (const raw of blocks) {
@@ -104,10 +158,6 @@ async function fromProfilePage(username: string): Promise<Project[]> {
 
     const desc = block.match(/pinned-item-desc[^>]*>([\s\S]*?)<\/p>/);
     const lang = block.match(/itemprop="programmingLanguage">([^<]+)</);
-    const color = block.match(
-      /repo-language-color"\s+style="background-color:\s*([^";]+)/,
-    );
-    const stars = block.match(/\/stargazers"[\s\S]*?<\/svg>\s*([\d.,k]+)/);
 
     projects.push({
       owner: link[1],
@@ -115,14 +165,12 @@ async function fromProfilePage(username: string): Promise<Project[]> {
       url: `https://github.com/${link[1]}/${link[2]}`,
       description: desc ? cleanText(desc[1]) : "",
       language: lang ? cleanText(lang[1]) : null,
-      languageColor: color ? color[1].trim() : null,
-      stars: stars ? stars[1] : "0",
     });
   }
   return projects;
 }
 
-async function fromRestApi(username: string): Promise<Project[]> {
+async function fromRestApi(username: string): Promise<BaseProject[]> {
   const res = await fetch(
     `https://api.github.com/users/${username}/repos?sort=pushed&per_page=6`,
     { headers: HEADERS },
@@ -134,7 +182,6 @@ async function fromRestApi(username: string): Promise<Project[]> {
     html_url: string;
     description: string | null;
     language: string | null;
-    stargazers_count: number;
     fork: boolean;
     owner: { login: string };
   };
@@ -148,8 +195,6 @@ async function fromRestApi(username: string): Promise<Project[]> {
       url: r.html_url,
       description: r.description ?? "",
       language: r.language,
-      languageColor: null,
-      stars: String(r.stargazers_count),
     }));
 }
 
