@@ -1,20 +1,28 @@
-"use client";
-
-import { useState } from "react";
 import type { IconType } from "react-icons";
 import { FaDiscord, FaGithub, FaLinkedinIn, FaXTwitter } from "react-icons/fa6";
-import { FiCheck } from "react-icons/fi";
 import { SiGmail } from "react-icons/si";
 import { site } from "@/lib/site";
 
 const buttonClass =
   "social grid size-9 cursor-pointer place-items-center text-muted sm:size-10";
 
-const links: { label: string; href: string; Icon: IconType }[] = [
+const links: {
+  label: string;
+  href: string;
+  Icon: IconType;
+  /** Hover tooltip; left off for Discord. */
+  tooltip?: boolean;
+}[] = [
   { label: "GitHub", href: site.socials.github, Icon: FaGithub },
   { label: "LinkedIn", href: site.socials.linkedin, Icon: FaLinkedinIn },
   { label: "X", href: site.socials.x, Icon: FaXTwitter },
   { label: "Gmail", href: `mailto:${site.socials.email}`, Icon: SiGmail },
+  {
+    label: "Discord",
+    href: site.socials.discord,
+    Icon: FaDiscord,
+    tooltip: false,
+  },
 ];
 
 /**
@@ -31,18 +39,6 @@ function WipeIcon({ Icon }: { Icon: IconType }) {
 }
 
 export function Socials() {
-  const [copied, setCopied] = useState(false);
-
-  async function copyDiscord() {
-    try {
-      await navigator.clipboard.writeText(site.socials.discord);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1800);
-    } catch {
-      // clipboard blocked — the username is still in the tooltip
-    }
-  }
-
   return (
     <>
       {/* Gradient the icons are filled with on hover. */}
@@ -57,33 +53,20 @@ export function Socials() {
       </svg>
 
       <ul className="flex items-center justify-between border-y border-line py-3">
-        {links.map(({ label, href, Icon }) => (
+        {links.map(({ label, href, Icon, tooltip }) => (
           <li key={label}>
             <a
               href={href}
               target={href.startsWith("mailto:") ? undefined : "_blank"}
               rel="noopener noreferrer"
               aria-label={label}
-              title={label}
+              title={tooltip === false ? undefined : label}
               className={buttonClass}
             >
               <WipeIcon Icon={Icon} />
             </a>
           </li>
         ))}
-        <li>
-          <button
-            type="button"
-            onClick={copyDiscord}
-            aria-label={
-              copied ? "Discord username copied" : "Copy Discord username"
-            }
-            title={`Discord: ${site.socials.discord} (click to copy)`}
-            className={buttonClass}
-          >
-            <WipeIcon Icon={copied ? FiCheck : FaDiscord} />
-          </button>
-        </li>
       </ul>
     </>
   );

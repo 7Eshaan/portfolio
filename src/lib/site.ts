@@ -35,8 +35,7 @@ export const site = {
     linkedin: "https://www.linkedin.com/in/eshaan-dogra",
     x: "https://x.com/eshawwn",
     email: "eshaandogra7@gmail.com",
-    /** Discord has no profile URLs, so clicking this copies the username. */
-    discord: "eshawwn",
+    discord: "https://discord.com/users/723084221413064745",
   },
 
   /** The "Listening to" card in the sidebar. */
