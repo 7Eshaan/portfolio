@@ -22,19 +22,21 @@ export const site = {
 
   /** Longer paragraphs for the About page. */
   about: [
-    "I\u2019m a second-year B.Tech CSE student who likes building things people actually use. Right now most of my time goes into Go, AI agents, MCPs, and backend systems.",
-    "I care about clean architecture and good design, and I\u2019m happiest when a project gets both right. A lot of what I build starts with wanting to know how something works underneath, and ends with me writing my own version of it.",
-    "Away from the keyboard it\u2019s mostly sport: football first, then badminton, table tennis, or whatever\u2019s fun. The rest is college, DSA, anime and gaming.",
+    "It all started on a random day when a friend invited me over to play a new game his dad had bought for him. It was GTA: Vice City. I had the time of my life playing it, and it sparked a curiosity about computers that stayed with me.",
+    "Back then, I had a fairly low-end laptop, so I got into tweaking and optimizing it to squeeze every bit of performance out of it. What started as an attempt to get better FPS in games gradually turned into an interest in understanding how computers actually worked.",
+    "As I explored further, I discovered Linux. Installing it on my old laptop opened up an entirely different side of computing. I enjoyed experimenting with different tools, customizing my environment, and learning by breaking things and figuring them out.",
+    "Outside of gaming and football, tinkering with computers became one of the few things I genuinely enjoyed. Over time, that curiosity evolved into an interest in building software and understanding the systems behind it.",
+    "I started coding seriously during my first year of B.Tech, initially gravitating towards backend engineering and working with technologies like Java and Go.",
+    "Today, I\u2019m particularly interested in AI agents, MCP, backend infrastructure, and distributed systems. I enjoy building things, exploring how systems work under the hood, and turning ideas into software.",
   ],
 
-  // TODO: replace the placeholder LinkedIn, X and Discord handles with your real ones.
   socials: {
     github: "https://github.com/7Eshaan",
-    linkedin: "https://www.linkedin.com/in/your-handle",
-    x: "https://x.com/your-handle",
+    linkedin: "https://www.linkedin.com/in/eshaan-dogra",
+    x: "https://x.com/eshawwn",
     email: "eshaandogra7@gmail.com",
     /** Discord has no profile URLs, so clicking this copies the username. */
-    discord: "your_discord_username",
+    discord: "eshawwn",
   },
 
   /** The "Listening to" card in the sidebar. */
