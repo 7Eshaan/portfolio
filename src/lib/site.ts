@@ -57,6 +57,7 @@ export const site = {
     { name: "Vorssaint", note: "Swiss-army knife for macOS", icon: "/apps/vorssaint.png", fullBleed: true, url: "https://github.com/vorssaint/vorssaint-utils" },
     { name: "Ghostty", note: "Terminal emulator", icon: "/apps/ghostty.png", fullBleed: true, url: "https://ghostty.org" },
     { name: "T3 Code", note: "Control plane for AI agents", icon: "/apps/t3code.png", url: "https://github.com/pingdotgg/t3code" },
+    { name: "Obsidian", note: "Notes", icon: "/apps/obsidian.png", url: "https://obsidian.md" },
   ],
 
   /** How many pinned repos to show, on the home page and the projects page. */
