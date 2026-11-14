@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Inter } from "next/font/google";
 import { Navbar } from "@/components/Navbar";
+import { ScrollIndicator } from "@/components/ScrollIndicator";
 import { Sidebar, SiteName } from "@/components/Sidebar";
 import { site } from "@/lib/site";
 import "./globals.css";
@@ -39,6 +40,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       </head>
       <body className="min-h-full">
         <div className="page-backdrop" aria-hidden="true" />
+        <ScrollIndicator />
         <div className="mx-auto grid min-h-screen max-w-6xl grid-rows-[auto_auto_1fr_auto] px-5 sm:px-8 lg:grid-cols-[18rem_minmax(0,1fr)] lg:grid-rows-[auto_1fr]">
           <SiteName />
           <Navbar />

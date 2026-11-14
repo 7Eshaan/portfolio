@@ -35,6 +35,8 @@
     rgb(23 11 43 / 0.62) 100%
   );
 
+  --scroll-thumb: linear-gradient(180deg, #a020f0, #5b21b6);
+
   /* The page backdrop: a clear dome at the top melting into purple. */
   --page-gradient: radial-gradient(
     ellipse var(--dome) at 55% -6%,
@@ -73,6 +75,8 @@
     rgb(255 255 255 / 0.58) 100%
   );
 
+  --scroll-thumb: linear-gradient(180deg, #f1e0ff, #b388ff);
+
   --page-gradient: radial-gradient(
     ellipse var(--dome) at 55% -6%,
     #000000 0%,
@@ -110,6 +114,77 @@ html {
 
 html.dark {
   color-scheme: dark;
+}
+
+/* ---------- Theme sweep ---------- */
+
+/* Switching theme: the new look pours in along the backdrop's own gradient,
+   from the centre of the dome at the top, outward and down, with a soft
+   edge, over a still image of the old look. */
+@property --sweep {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 0%;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-new(root) {
+  --sweep: 145%;
+  -webkit-mask-image: radial-gradient(
+    ellipse var(--dome) at 55% -6%,
+    #000 calc(var(--sweep) - 22%),
+    transparent var(--sweep)
+  );
+  mask-image: radial-gradient(
+    ellipse var(--dome) at 55% -6%,
+    #000 calc(var(--sweep) - 22%),
+    transparent var(--sweep)
+  );
+  animation: theme-sweep 0.9s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+@keyframes theme-sweep {
+  from {
+    --sweep: 0%;
+  }
+  to {
+    --sweep: 145%;
+  }
+}
+
+/* ---------- Scrollbar ---------- */
+
+/* The browser's scrollbar is hidden; ScrollIndicator draws this thumb over
+   the right edge instead, and only while the page is scrolling. */
+html {
+  scrollbar-width: none;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.scroll-thumb {
+  position: fixed;
+  top: 0;
+  right: 3px;
+  z-index: 50;
+  width: 6px;
+  border-radius: 999px;
+  background: var(--scroll-thumb);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.45s ease;
+}
+
+.scroll-thumb.is-visible {
+  opacity: 1;
+  transition-duration: 0.15s;
 }
 
 body {
