@@ -119,12 +119,16 @@ html.dark {
 /* ---------- Theme sweep ---------- */
 
 /* Switching theme: the new look pours in along the backdrop's own gradient,
-   from the centre of the dome at the top, outward and down, with a soft
-   edge, over a still image of the old look. */
+   from the centre of the dome at the top, outward and down, with a soft edge.
+
+   The new look sits underneath, untouched. A still image of the old look lies
+   on top and a growing hole is cut out of it. Built this way round on purpose:
+   if a browser draws a frame before the mask or the animation has taken hold
+   (Safari does), that frame shows the old look, never a flash of the new one. */
 @property --sweep {
   syntax: "<percentage>";
   inherits: false;
-  initial-value: 0%;
+  initial-value: 1%;
 }
 
 ::view-transition-old(root),
@@ -134,23 +138,30 @@ html.dark {
 }
 
 ::view-transition-new(root) {
-  --sweep: 145%;
+  z-index: 0;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+  /* Resting value = hole closed. Never 0%: a zero-length gradient makes
+     Safari drop the mask altogether. */
+  --sweep: 1%;
   -webkit-mask-image: radial-gradient(
     ellipse var(--dome) at 55% -6%,
-    #000 calc(var(--sweep) - 22%),
-    transparent var(--sweep)
+    transparent calc(var(--sweep) - 22%),
+    #000 var(--sweep)
   );
   mask-image: radial-gradient(
     ellipse var(--dome) at 55% -6%,
-    #000 calc(var(--sweep) - 22%),
-    transparent var(--sweep)
+    transparent calc(var(--sweep) - 22%),
+    #000 var(--sweep)
   );
-  animation: theme-sweep 0.9s cubic-bezier(0.65, 0, 0.35, 1);
+  animation: theme-sweep 0.9s cubic-bezier(0.65, 0, 0.35, 1) both;
 }
 
 @keyframes theme-sweep {
   from {
-    --sweep: 0%;
+    --sweep: 1%;
   }
   to {
     --sweep: 145%;
