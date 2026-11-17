@@ -48,7 +48,7 @@ export const site = {
   },
 
   /**
-   * The "Apps I like to use" belt. Icons live in public/apps.
+   * The "Software I like to use" belt. Icons live in public/apps.
    * `fullBleed` marks icons with no built-in padding, so they get shrunk to match the rest.
    */
   apps: [

@@ -7,7 +7,7 @@ import { Socials } from "./Socials";
 /** Top-left cell: the name, aligned with the navbar row. */
 export function SiteName() {
   return (
-    <div className="flex h-16 items-end lg:h-24 lg:items-center lg:pr-10">
+    <div className="pinned flex h-16 items-end lg:h-24 lg:items-center lg:pr-10">
       <Link
         href="/"
         aria-label={site.name}
@@ -124,7 +124,7 @@ function Apps() {
   return (
     <section aria-labelledby="apps-heading">
       <h2 id="apps-heading" className={headingClass}>
-        Apps I like to use
+        Software I like to use
       </h2>
       <div
         className="marquee marquee-reverse border-y border-line py-3"

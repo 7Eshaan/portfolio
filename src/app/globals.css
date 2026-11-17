@@ -571,11 +571,51 @@ a:hover .marquee-track {
   }
 }
 
-/* The sidebar follows the scroll only when the whole column fits on screen. */
-@media (min-width: 64rem) and (min-height: 50rem) {
-  .sidebar-sticky {
+/* ---------- Pinned frame (desktop) ----------
+   On wide screens the navbar row and the sidebar stay put and only the page
+   column moves. The window itself still does the scrolling (wheel anywhere,
+   keyboard, scroll restoration all behave as normal); the frame is simply
+   sticky on top of it.
+
+   The pinned row is painted with the page gradient fixed to the viewport, so
+   it matches the backdrop pixel for pixel and content slides under it out of
+   sight instead of showing through. */
+@media (min-width: 64rem) {
+  :root {
+    --header-h: 6rem;
+  }
+
+  .pinned {
     position: sticky;
     top: 0;
+    z-index: 20;
+    background: var(--page-gradient) fixed;
+  }
+
+  .sidebar-sticky {
+    position: sticky;
+    top: var(--header-h);
+  }
+
+  /* On shorter laptop screens the photo gets less tall (same width, so the
+     column edges stay lined up) so the whole sidebar still fits. */
+  .sidebar-sticky .pfp > div {
+    aspect-ratio: auto;
+    height: clamp(9rem, calc(100dvh - 35.5rem), 100cqw);
+  }
+
+  .sidebar-sticky .pfp {
+    container-type: inline-size;
+  }
+}
+
+/* Below ~710px tall even the shorter photo isn't enough, so the sidebar
+   scrolls on its own rather than being cut off. */
+@media (min-width: 64rem) and (max-height: 44.5rem) {
+  .sidebar-sticky {
+    max-height: calc(100dvh - var(--header-h));
+    overflow-y: auto;
+    scrollbar-width: none;
   }
 }
 
