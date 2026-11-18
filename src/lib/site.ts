@@ -87,9 +87,9 @@ export const projectDetails: Record<
     description:
       "A cross-platform BitTorrent client written in Go, featuring tracker and DHT support, resumable downloads, peer management, and a lightweight daemon\u2013CLI architecture.",
     image: {
-      src: "/projects/denco.png",
-      width: 1772,
-      height: 684,
+      src: "/projects/denco-tui.png",
+      width: 1680,
+      height: 936,
       position: "left top",
     },
   },
