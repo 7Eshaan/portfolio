@@ -22,12 +22,12 @@ export const site = {
 
   /** Longer paragraphs for the About page. */
   about: [
-    "It all started on a random day when a friend invited me over to play a new game his dad had bought for him. It was GTA: Vice City. I had the time of my life playing it, and it sparked a curiosity about computers that stayed with me.",
-    "Back then, I had a fairly low-end laptop, so I got into tweaking and optimizing it to squeeze every bit of performance out of it. What started as an attempt to get better FPS in games gradually turned into an interest in understanding how computers actually worked.",
-    "As I explored further, I discovered Linux. Installing it on my old laptop opened up an entirely different side of computing. I enjoyed experimenting with different tools, customizing my environment, and learning by breaking things and figuring them out.",
-    "Outside of gaming and football, tinkering with computers became one of the few things I genuinely enjoyed. Over time, that curiosity evolved into an interest in building software and understanding the systems behind it.",
-    "I started coding seriously during my first year of B.Tech, initially gravitating towards backend engineering and working with technologies like Java and Go.",
-    "Today, I\u2019m particularly interested in AI agents, MCP, backend infrastructure, and distributed systems. I enjoy building things, exploring how systems work under the hood, and turning ideas into software.",
+    "It all started when a friend invited me over to play GTA: Vice City. I had a blast, and it sparked a lasting curiosity about computers.",
+    "With a low-end laptop, I began tweaking it for better FPS. That slowly turned into a deeper interest in how computers actually work.",
+    "Then I discovered Linux. Installing it opened up a whole new side of computing\u2014experimenting, customizing, and learning by breaking things.",
+    "Outside of gaming and football, tinkering with computers became something I genuinely enjoyed. That curiosity grew into building software and understanding the systems behind it.",
+    "I started coding seriously in my first year of B.Tech, drawn to backend engineering with Java and Go.",
+    "Today I\u2019m especially interested in AI agents, MCP, backend infrastructure, and distributed systems. I enjoy building things, exploring how systems work under the hood, and turning ideas into software.",
   ],
 
   socials: {
