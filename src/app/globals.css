@@ -37,6 +37,34 @@
 
   --scroll-thumb: linear-gradient(180deg, #a020f0, #5b21b6);
 
+  /* Tech stack planet */
+  --planet: radial-gradient(
+    circle at 34% 28%,
+    #ffffff 0%,
+    #f1e0ff 16%,
+    #c77dff 46%,
+    #8b2cf0 74%,
+    #4c1d95 100%
+  );
+  --planet-glow: rgb(160 32 240 / 0.35);
+  /* Rings: the headings' silver, darkened to read on a light page. */
+  --silver-a: #5a4a78;
+  --silver-b: #8d8a9c;
+  --silver-c: #3b3150;
+  --ring-line-alpha: 0.55;
+  --ring-band-alpha: 0.12;
+  --ring-band-on-alpha: 0.3;
+  --planet-rim: rgb(255 255 255 / 0.85);
+  --planet-silver: rgb(255 255 255 / 0.28);
+  --brand-next: #000000;
+  /* Hover illumination strength: gentler on a white badge. */
+  --illum-core: 16%;
+  --illum-mid: 6%;
+  --ring-b: #a020f0;
+  --orb-bg: rgb(255 255 255 / 0.88);
+  --orb-border: rgb(91 33 182 / 0.22);
+  --orb-fg: #2e1065;
+
   /* The page backdrop: a clear dome at the top melting into purple. */
   --page-gradient: radial-gradient(
     ellipse var(--dome) at 55% -6%,
@@ -76,6 +104,32 @@
   );
 
   --scroll-thumb: linear-gradient(180deg, #f1e0ff, #b388ff);
+
+  --planet: radial-gradient(
+    circle at 34% 28%,
+    #f6eaff 0%,
+    #d4a5ff 14%,
+    #a020f0 42%,
+    #5a14ad 70%,
+    #1d0646 100%
+  );
+  --planet-glow: rgb(168 60 255 / 0.5);
+  /* Rings: the headings' white-to-silver. */
+  --silver-a: #a9a6b8;
+  --silver-b: #e4e2ec;
+  --silver-c: #ffffff;
+  --ring-line-alpha: 0.6;
+  --ring-band-alpha: 0.1;
+  --ring-band-on-alpha: 0.26;
+  --planet-rim: rgb(235 232 245 / 0.9);
+  --planet-silver: rgb(235 232 245 / 0.22);
+  --brand-next: #ffffff;
+  --illum-core: 30%;
+  --illum-mid: 12%;
+  --ring-b: #c77dff;
+  --orb-bg: rgb(18 4 40 / 0.85);
+  --orb-border: rgb(228 193 255 / 0.24);
+  --orb-fg: #f5ebff;
 
   --page-gradient: radial-gradient(
     ellipse var(--dome) at 55% -6%,
@@ -215,6 +269,257 @@ body {
   inset: 0;
   z-index: -1;
   background: var(--page-gradient);
+}
+
+/* ---------- Tech stack: Saturn ----------
+   A planet with one ring per category; icons orbit on their ring (their
+   positions are set from TechSaturn.tsx). Back halves of the rings sit
+   behind the planet and front halves over it, like the real thing. */
+.saturn {
+  --illum-time: 0.25s;
+  position: relative;
+  width: 100%;
+  user-select: none;
+}
+
+.saturn-rings {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.saturn-band,
+.saturn-line {
+  fill: none;
+  transition:
+    stroke-opacity 0.4s ease,
+    stroke-width 0.4s ease;
+}
+
+.saturn-band {
+  stroke-opacity: var(--ring-band-alpha);
+}
+
+.saturn-line {
+  stroke-width: 1.25;
+  stroke-opacity: var(--ring-line-alpha);
+}
+
+.saturn-ring {
+  transition: opacity 0.4s ease;
+}
+
+.saturn-ring.is-dim {
+  opacity: 0.3;
+}
+
+.saturn-ring.is-active .saturn-band {
+  stroke-opacity: var(--ring-band-on-alpha);
+}
+
+.saturn-ring.is-active .saturn-line {
+  stroke-width: 2.25;
+  stroke-opacity: 1;
+}
+
+.saturn-silver-a {
+  stop-color: var(--silver-a);
+}
+.saturn-silver-b {
+  stop-color: var(--silver-b);
+}
+.saturn-silver-c {
+  stop-color: var(--silver-c);
+}
+
+.saturn-planet {
+  position: absolute;
+  z-index: 2;
+  overflow: hidden;
+  border-radius: 50%;
+  background: var(--planet);
+  box-shadow: 0 0 60px -6px var(--planet-glow);
+}
+
+/* Cloud bands parallel to the rings, drifting slowly; the night side is
+   shaded on top. */
+.saturn-bands {
+  position: absolute;
+  inset: -50%;
+  background: repeating-linear-gradient(
+    168deg,
+    var(--planet-silver) 0 4%,
+    transparent 4% 9%,
+    rgb(30 0 70 / 0.16) 9% 12%,
+    transparent 12% 17%,
+    rgb(235 232 245 / 0.1) 17% 19%,
+    transparent 19% 25%
+  );
+  animation: planet-bands 40s linear infinite;
+}
+
+/* Night side in shadow, a silver highlight where the light hits, and a thin
+   silver rim along the lit edge. */
+.saturn-planet::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle at 32% 26%,
+      rgb(255 255 255 / 0.55) 0,
+      rgb(228 226 236 / 0.18) 14%,
+      transparent 30%
+    ),
+    radial-gradient(circle at 30% 24%, transparent 45%, rgb(12 2 30 / 0.55) 100%);
+}
+
+.saturn-planet::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: 50%;
+  background: linear-gradient(
+    135deg,
+    var(--planet-rim) 0%,
+    rgb(169 166 184 / 0.35) 30%,
+    transparent 55%
+  );
+  -webkit-mask-image: radial-gradient(circle, transparent 64%, #000 71%);
+  mask-image: radial-gradient(circle, transparent 64%, #000 71%);
+}
+
+@keyframes planet-bands {
+  to {
+    transform: translateX(25%);
+  }
+}
+
+.saturn-orb {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  will-change: transform;
+  cursor: pointer;
+}
+
+/* Nothing shows until the stage has been measured, so the first paint never
+   flashes rings at the wrong size. */
+.saturn:not(.is-ready) > * {
+  visibility: hidden;
+}
+
+.saturn.is-ready > * {
+  animation: saturn-in 0.6s ease both;
+}
+
+@keyframes saturn-in {
+  from {
+    opacity: 0;
+  }
+}
+
+.saturn-orb-face {
+  position: relative;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--orb-border);
+  border-radius: 50%;
+  background: var(--orb-bg);
+  color: var(--orb-fg);
+  box-shadow: 0 6px 16px -8px rgb(0 0 0 / 0.5);
+  transition:
+    transform var(--illum-time) cubic-bezier(0.65, 0, 0.35, 1),
+    opacity 0.4s ease,
+    box-shadow 0.4s ease,
+    border-color var(--illum-time) ease;
+}
+
+.saturn-orb-face > svg {
+  position: relative;
+  z-index: 1;
+  transition: color var(--illum-time) ease;
+}
+
+/* Hover: the badge lights up from inside in the tool's own colour and the
+   logo takes that colour. No glows or filters, so nothing spills out and
+   nothing brightens again after the fade. */
+.saturn-orb-face::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--brand) var(--illum-core), transparent) 0%,
+    color-mix(in srgb, var(--brand) var(--illum-mid), transparent) 60%,
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity var(--illum-time) ease;
+}
+
+.saturn-orb:hover .saturn-orb-face {
+  transform: scale(1.15);
+  border-color: var(--ring-b);
+}
+
+.saturn-orb:hover .saturn-orb-face::before {
+  opacity: 1;
+}
+
+.saturn-orb:hover .saturn-orb-face > svg {
+  color: var(--brand);
+}
+
+.saturn-orb-face.is-active {
+  transform: scale(1.2);
+  border-color: var(--ring-b);
+  box-shadow:
+    0 0 0 1px var(--ring-b),
+    0 0 22px -2px var(--glow);
+}
+
+.saturn-orb-face.is-dim {
+  opacity: 0.25;
+}
+
+/* Name label on hover. */
+.saturn-tip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  translate: -50% 4px;
+  padding: 3px 8px;
+  border: 1px solid var(--orb-border);
+  border-radius: 999px;
+  background: var(--orb-bg);
+  color: var(--orb-fg);
+  font-size: 0.75rem;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 0.2s ease,
+    translate 0.2s ease;
+}
+
+/* A hovered icon comes fully forward, even from the back of its ring. */
+.saturn-orb:hover {
+  z-index: 10 !important;
+  opacity: 1 !important;
+}
+
+.saturn-orb:hover .saturn-tip {
+  opacity: 1;
+  translate: -50% 0;
 }
 
 /* ---------- Gradient helpers ---------- */

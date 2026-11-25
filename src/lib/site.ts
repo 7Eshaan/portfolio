@@ -115,12 +115,8 @@ export const techStack = [
     items: ["React", "Next.js", "Svelte", "Tailwind CSS"],
   },
   {
-    title: "Runtime & Backend",
-    items: ["Node.js"],
-  },
-  {
-    title: "Databases & Backend Services",
-    items: ["PostgreSQL", "MongoDB", "Redis", "Supabase", "Firebase"],
+    title: "Backend",
+    items: ["Node.js", "PostgreSQL", "MongoDB", "Redis", "Supabase", "Firebase"],
   },
   {
     title: "Tools & DevOps",
