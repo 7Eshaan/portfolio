@@ -346,13 +346,11 @@ export function TechSaturn() {
         aria-live="polite"
         className="mt-5 min-h-[1.5rem] text-center text-sm text-pretty text-muted"
       >
-        {shown ? (
+        {shown && (
           <>
             <span className="font-medium text-fg">{shown.title}:</span>{" "}
             {shown.items.join(" · ")}
           </>
-        ) : (
-          `${rings.reduce((n, r) => n + r.items.length, 0)} tools across ${rings.length} rings. Pick one to highlight it.`
         )}
       </p>
 

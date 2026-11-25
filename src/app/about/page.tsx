@@ -30,7 +30,7 @@ export default function About() {
         </h2>
 
         <p className="mt-3 text-muted">
-          Everything I build with, orbiting in its own ring.
+          Everything I build with.
         </p>
 
         <div className="mt-8">
